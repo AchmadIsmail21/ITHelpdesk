@@ -42,7 +42,7 @@ namespace API.Repository.Data
                     Password = hashPassword,
                     BirthDate = registerVM.BirthDate,
                     gender = (User.Gender)registerVM.gender,
-                    RoleId = 2,
+                    RoleId = 1,
                     Phone = registerVM.Phone,
                     Address = registerVM.Address,
                     Department = registerVM.Department,
