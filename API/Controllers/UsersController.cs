@@ -127,6 +127,36 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("GetStaffs")]
+        public ActionResult GetStaffs()
+        {
+            var getAllStaff = userRepository.GetStaffs();
+            if (getAllStaff != null)
+            {
+                return Ok(getAllStaff);
+            }
+            else
+            {
+                return BadRequest("Data Tidak Ditemukan");
+            }
+
+        }
+
+        [HttpGet("GetStaffbyId/{id}")]
+        public ActionResult GetStaffbyId(int id)
+        {
+            var getStaffById = userRepository.GetStaffById(id);
+            if (getStaffById != null)
+            {
+                return Ok(getStaffById);
+            }
+            else
+            {
+                return BadRequest("Data Tidak Ditemukan");
+            }
+
+        }
+
         [HttpGet("GetProfile")]
         public ActionResult GetProfile() {
             var get = userRepository.GetProfile();
