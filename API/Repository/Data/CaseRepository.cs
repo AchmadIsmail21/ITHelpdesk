@@ -203,12 +203,13 @@ namespace API.Repository.Data
                         Review = c.Review,
                         Level = c.Level,
                         UserId = u.Id,
+                        StaffId = c.StaffId,
                         UserName = u.Name,
                         PriorityName = p.Name,
                         CategoryName = ct.Name,
                     }
                 ).ToList();
-            return all.Where(e => e.EndDateTime == null && e.Level == level && (e.StaffId != null || e.StaffId > 0)).OrderByDescending(s => s.StartDateTime);
+            return all.Where(e => e.EndDateTime == null && e.Level == level && (e.StaffId == null || e.StaffId == 0)).OrderByDescending(s => s.StartDateTime);
         }
 
         public int NextLevel(int caseId) {
@@ -228,7 +229,7 @@ namespace API.Repository.Data
             //Mendapatkan staff
             if (history.Level <= 2) {
                 cases.Level = cases.Level + 1;
-                cases.StaffId = 1;
+                cases.StaffId = 0;
                 myContext.Cases.Update(cases);
                 result = myContext.SaveChanges();
 
@@ -236,7 +237,7 @@ namespace API.Repository.Data
                 {
                     DateTime = DateTime.Now,
                     Level = history.Level+1,
-                    Description = $"[Staff] Staff id ({history.UserId}) want to help ({caseId} to next level ({history.Level + 1}))",
+                    Description = $"[Staff] User id ({history.UserId}) want to help ({caseId} to next level ({history.Level + 1}))",
                     UserId = history.UserId,
                     CaseId = history.CaseId,
                     StatusCodeId = 2
@@ -290,9 +291,9 @@ namespace API.Repository.Data
                 var history = new History()
                 {
                     DateTime = DateTime.Now,
-                    Description = $"(Staff) ({closeTicket.StaffId}) Handling CaseId ({closeTicket.CaseId})",
+                    Description = $"(Staff) ({closeTicket.UserId}) Handling CaseId ({closeTicket.CaseId})",
                     Level = getHistory.Level,
-                    UserId = getHistory.UserId,
+                    UserId = closeTicket.UserId,
                     CaseId = getHistory.CaseId,
                     StatusCodeId = 2
                 };
@@ -366,6 +367,8 @@ namespace API.Repository.Data
                 };
                 myContext.Histories.Add(history);
                 result = myContext.SaveChanges();
+                return result;
+            } else if (getCase == null) {
                 return result;
             }
             else {

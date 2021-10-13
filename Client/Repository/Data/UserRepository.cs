@@ -53,23 +53,6 @@ namespace Client.Repository.Data
             return data;
         }
 
-        public HttpStatusCode InsertUser(User user)
-        {
-            StringContent content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-            var result = httpClient.PostAsync(address.link + request, content).Result;
-            return result.StatusCode;
-        }
-
-        public async Task<RegisterVM> GetProfileById(int id) {
-            RegisterVM register = null;
-
-            using (var response = await httpClient.GetAsync(request + "GetProfileById/" + id)) {
-                string apiResponse = await response.Content.ReadAsStringAsync();
-                register = JsonConvert.DeserializeObject<RegisterVM>(apiResponse);
-            }
-            return register;
-        }
-
         public async Task<UserSessionVM> GetUserByEmail(string email)
         {
             UserSessionVM userSession = null;
