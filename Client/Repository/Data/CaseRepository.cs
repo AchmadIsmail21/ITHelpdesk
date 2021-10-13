@@ -39,11 +39,11 @@ namespace Client.Repository.Data
             return cases;
         }
 
-        public async Task<List<CaseVM>> GetTicketsByStaffId(int staffId)
+        public async Task<List<CaseVM>> GetTicketsByStaffId(int userId)
         {
             List<CaseVM> data = new List<CaseVM>();
 
-            using (var response = await httpClient.GetAsync(request + "ViewTicketsByStaffId/" + staffId))
+            using (var response = await httpClient.GetAsync(request + "ViewTicketsByStaffId/" + userId))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 data = JsonConvert.DeserializeObject<List<CaseVM>>(apiResponse);
@@ -74,11 +74,11 @@ namespace Client.Repository.Data
         }
 
 
-        public async Task<List<CaseVM>> GetHistoryTicketsByStaffId(int staffId)
+        public async Task<List<CaseVM>> GetHistoryTicketsByStaffId(int userId)
         {
             List<CaseVM> data = new List<CaseVM>();
 
-            using (var response = await httpClient.GetAsync(request + "ViewHistoryTicketByStaffId/" + staffId))
+            using (var response = await httpClient.GetAsync(request + "ViewHistoryTicketByStaffId/" + userId))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 data = JsonConvert.DeserializeObject<List<CaseVM>>(apiResponse);
