@@ -37,18 +37,12 @@ namespace API.Repository.Data
                     PriorityId = 1,
                     Level = 1,
                     UserId = ticketVM.UserId,
+                    StaffId = 0,
                     CategoryId = ticketVM.CategoryId
                 };
                 myContext.Add(cases);
                 result = myContext.SaveChanges();
 
-                //StaffCase staffCase = new StaffCase()
-                /*{
-                    CaseId = cases.Id,
-                    StaffId = 1
-                };
-                myContext.Add(staffCase);*/
-                result = myContext.SaveChanges();
 
                 History history = new History()
                 {
@@ -142,16 +136,14 @@ namespace API.Repository.Data
         }
 
         //by staff------------------------------------------------------------------------------------------------------------
-        /*public IEnumerable<CaseVM> ViewTicketsByStaffId(int staffId)
+        public IEnumerable<CaseVM> ViewTicketsByStaffId(int userId)
         {
-            //var history = myContext.Histories.OrderByDescending(e => e.DateTime).Where(u => u.UserId == userId).Select(c => c.CaseId);
-            *//*var staff = myContext.StaffCases.Where(sc => sc.StaffId == staffId).Select(c => c.CaseId);*//*
+            var history = myContext.Histories.OrderByDescending(e => e.DateTime).Where(u => u.UserId == userId).Select(c => c.CaseId);
             var all = (
                 from c in myContext.Cases
                 join u in myContext.Users on c.UserId equals u.Id
                 join p in myContext.Priorities on c.PriorityId equals p.Id
                 join ct in myContext.Categories on c.CategoryId equals ct.Id
-              
                 select new CaseVM
                 {
                     Id = c.Id,
@@ -164,15 +156,15 @@ namespace API.Repository.Data
                     UserName = u.Name,
                     PriorityName = p.Name,
                     CategoryName = ct.Name,
-                    
+
                 }).ToList();
-            *//*return all.Where(s => staff.Contains(s.Id) && s.EndDateTime == null);*//*
-        }*/
+            return all.Where(s => history.Contains(s.Id) && s.EndDateTime == null);
+        }
         //history by staff----------------------------------------------------------------------------------------------
-       /* public IEnumerable<CaseVM> ViewHistoryTicketsByStaffId(int staffId)
+        public IEnumerable<CaseVM> ViewHistoryTicketsByStaffId(int userId)
         {
-            //var history = myContext.Histories.OrderByDescending(e => e.DateTime).Where(u => u.UserId == userId).Select(c => c.CaseId);
-           *//* var staff = myContext.StaffCases.Where(sc => sc.StaffId == staffId).Select(c => c.CaseId);*//*
+            var history = myContext.Histories.OrderByDescending(e => e.DateTime).Where(u => u.UserId == userId).Select(c => c.CaseId);
+            
             var all = (
                 from c in myContext.Cases
                 join u in myContext.Users on c.UserId equals u.Id
@@ -190,10 +182,10 @@ namespace API.Repository.Data
                     UserName = u.Name,
                     PriorityName = p.Name,
                     CategoryName = ct.Name
-                    
+
                 }).ToList();
-            *//*return all.Where(s => staff.Contains(s.Id) && s.EndDateTime != null);*//*
-        }*/
+            return all.Where(s => history.Contains(s.Id) && s.EndDateTime != null);
+        }
 
         //View ticket by difficulty level------------------------------------------------------------------------
         public IEnumerable<CaseVM> ViewTicketByLevel(int level) {
@@ -202,8 +194,6 @@ namespace API.Repository.Data
                     join u in myContext.Users on c.UserId equals u.Id
                     join p in myContext.Priorities on c.PriorityId equals p.Id
                     join ct in myContext.Categories on c.CategoryId equals ct.Id
-                    /*join scs in myContext.StaffCases on c.Id equals scs.CaseId
-                    join s in myContext.Staffs on scs.StaffId equals s.Id*/
                     select new CaseVM
                     {
                         Id = c.Id,
@@ -216,7 +206,6 @@ namespace API.Repository.Data
                         UserName = u.Name,
                         PriorityName = p.Name,
                         CategoryName = ct.Name,
-                        /*StaffId = s.Id*/
                     }
                 ).ToList();
             return all.Where(e => e.EndDateTime == null && e.Level == level && (e.StaffId != null || e.StaffId > 0)).OrderByDescending(s => s.StartDateTime);
@@ -236,20 +225,18 @@ namespace API.Repository.Data
                 return 0;
             }
 
-           /* var staff = myContext.StaffCases.FirstOrDefault(s => s.CaseId == caseId);*/
             //Mendapatkan staff
             if (history.Level <= 2) {
                 cases.Level = cases.Level + 1;
-               /* staff.StaffId = 1;*/
+                cases.StaffId = 1;
                 myContext.Cases.Update(cases);
-                /*myContext.StaffCases.Update(staff);*/
                 result = myContext.SaveChanges();
 
                 var histories = new History()
                 {
                     DateTime = DateTime.Now,
                     Level = history.Level+1,
-                    //Description = $"[Staff] Staff id ({staff.StaffId}) want to help ({caseId} to next level ({history.Level + 1}))",
+                    Description = $"[Staff] Staff id ({history.UserId}) want to help ({caseId} to next level ({history.Level + 1}))",
                     UserId = history.UserId,
                     CaseId = history.CaseId,
                     StatusCodeId = 2
@@ -273,16 +260,13 @@ namespace API.Repository.Data
             var history = new History()
             {
                 DateTime = DateTime.Now,
-                Description = $"(Staff) Staff id ({priorityVM.StaffId}) Change Priority of Case id ({priorityVM.CaseId}) from priority ({getCases.PriorityId}) to ({priorityVM.PriorityId})",
+                Description = $"(Staff) Staff id ({priorityVM.UserId}) Change Priority of Case id ({priorityVM.CaseId}) from priority ({getCases.PriorityId}) to ({priorityVM.PriorityId})",
                 UserId = priorityVM.UserId,
                 Level = getCases.Level,
                 CaseId = getCases.Id,
                 StatusCodeId = 2
             };
-            //var getStaff = myContext.StaffCases.FirstOrDefault(s => s.CaseId == priorityVM.CaseId);
-            //getStaff.StaffId = priorityVM.StaffId;
-            //myContext.StaffCases.Update(getStaff);
-            result = myContext.SaveChanges();
+            
 
             getCases.PriorityId = priorityVM.PriorityId;
             myContext.Cases.Update(getCases);
@@ -312,11 +296,10 @@ namespace API.Repository.Data
                     CaseId = getHistory.CaseId,
                     StatusCodeId = 2
                 };
-                //var getStaff = myContext.StaffCases.FirstOrDefault(s => s.CaseId == closeTicket.CaseId);
-                //var getCases = myContext.Cases.Find(closeTicket.CaseId);
-                //getStaff.StaffId = closeTicket.StaffId;
+                var cases = myContext.Cases.Find(closeTicket.CaseId);
+                cases.StaffId = closeTicket.UserId;
 
-               // myContext.StaffCases.Update(getStaff);
+                myContext.Cases.Update(cases);
                 result = myContext.SaveChanges();
 
                 myContext.Histories.Add(history);
@@ -330,7 +313,7 @@ namespace API.Repository.Data
             var result = 0;
 
             var cases = myContext.Cases.Find(closeTicketVM.CaseId);
-            if (cases != null)
+            if (cases.EndDateTime == null)
             {
                 cases.EndDateTime = DateTime.Now;
                 myContext.Cases.Update(cases);
@@ -340,15 +323,15 @@ namespace API.Repository.Data
                 History history = new History()
                 {
                     CaseId = cases.Id,
-                    Description = $"(System) Closed Ticket By Staff ({closeTicketVM.StaffId})",
+                    Description = $"(System) Closed Ticket By Staff ({closeTicketVM.UserId})",
                     DateTime = DateTime.Now,
                     Level = lastHistory.Level,
                     UserId = closeTicketVM.UserId,
                     StatusCodeId = 3
                 };
-               // var getStaff = myContext.StaffCases.FirstOrDefault(s => s.CaseId == closeTicketVM.CaseId);
-                //getStaff.StaffId = closeTicketVM.StaffId;
-               // myContext.StaffCases.Update(getStaff);
+                var getCases = myContext.Cases.Find(closeTicketVM.CaseId);
+                getCases.StaffId = 0;
+                myContext.Cases.Update(cases);
                 result = myContext.SaveChanges();
 
                 myContext.Histories.Add(history);
@@ -364,7 +347,7 @@ namespace API.Repository.Data
             var result = 0;
             var getCase = myContext.Cases.Find(review.CaseId);
 
-            if (getCase != null)
+            if (getCase.EndDateTime != null)
             {
 
                 getCase.Review = review.Review;

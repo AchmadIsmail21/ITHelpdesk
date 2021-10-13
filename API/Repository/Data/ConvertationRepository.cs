@@ -16,12 +16,12 @@ namespace API.Repository.Data
             this.myContext = myContext;
         }
 
-        public int CreateConvertation(CreateConvertationVM createConvertationVM) {
+        public int CreateConvertation(CreateConvertationVM createConvertation) {
             Convertation convertation = new Convertation() {
                 DateTime = DateTime.Now,
-                Message = createConvertationVM.Message,
-                UserId = createConvertationVM.UserId,
-                CaseId = createConvertationVM.CaseId
+                Message = createConvertation.Message,
+                UserId = createConvertation.UserId,
+                CaseId = createConvertation.CaseId
             };
             myContext.Convertations.Add(convertation);
             myContext.SaveChanges();
