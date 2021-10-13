@@ -72,10 +72,10 @@ namespace API.Controllers
             }
         }
 
-       /* [HttpGet("ViewTicketsByStaffId/{staffId}")]
-        public ActionResult ViewTicketsByStaffId(int staffId)
+        [HttpGet("ViewTicketsByStaffId/{userId}")]
+        public ActionResult ViewTicketsByStaffId(int userId)
         {
-            var get = caseRepository.ViewTicketsByStaffId(staffId);
+            var get = caseRepository.ViewTicketsByStaffId(userId);
             if (get != null)
             {
                 return Ok(get);
@@ -84,12 +84,12 @@ namespace API.Controllers
             {
                 return BadRequest("Data ticket dengan staff id tersebut tidak ditemukan");
             }
-        }*/
+        }
 
-        /*[HttpGet("ViewHistoryTicketByStaffId/{staffId}")]
-        public ActionResult ViewHistoryTicketByStaffId(int staffId)
+        [HttpGet("ViewHistoryTicketByStaffId/{userId}")]
+        public ActionResult ViewHistoryTicketByStaffId(int userId)
         {
-            var getHistory = caseRepository.ViewHistoryTicketsByStaffId(staffId);
+            var getHistory = caseRepository.ViewHistoryTicketsByStaffId(userId);
             if (getHistory != null)
             {
                 return Ok(getHistory);
@@ -98,7 +98,7 @@ namespace API.Controllers
             {
                 return BadRequest("Data tiket dengan staff id tersebut tidak ditemukan");
             }
-        }*/
+        }
 
         [HttpGet("ViewTicketByLevel/{level}")]
         public ActionResult ViewTicketByLevel(int level)

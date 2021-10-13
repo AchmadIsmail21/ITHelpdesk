@@ -172,6 +172,49 @@ namespace API.Repository.Data
             return all.Where(u => u.RoleName == "Client").FirstOrDefault(u => u.Id == id);
         }
 
+        // get all Staffs
+        public IEnumerable<ProfileVM> GetStaffs()
+        {
+            
+            var all = (
+                from u in myContext.Users
+                join r in myContext.Roles on u.RoleId equals r.Id
+                select new ProfileVM
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Email = u.Email,
+                    BirthDate = u.BirthDate,
+                    RoleName = r.Name,
+                    Phone = u.Phone,
+                    Address = u.Address,
+                    Department = u.Department,
+                    Company = u.Company
+                }).ToList();
+            return all.Where(x => x.RoleName != "Client");
+        }
+
+        //get staff by id
+        public ProfileVM GetStaffById(int id)
+        {
+            var all = (
+               from u in myContext.Users
+               join r in myContext.Roles on u.RoleId equals r.Id
+               select new ProfileVM
+               {
+                   Id = u.Id,
+                   Name = u.Name,
+                   Email = u.Email,
+                   BirthDate = u.BirthDate,
+                   RoleName = r.Name,
+                   Phone = u.Phone,
+                   Address = u.Address,
+                   Department = u.Department,
+                   Company = u.Company
+               }).ToList();
+            return all.Where(x => x.RoleName != "Client").FirstOrDefault(u => u.Id == id);
+        }
+
         //profile
         public IEnumerable<ProfileVM> GetProfile() {
             var all = (
