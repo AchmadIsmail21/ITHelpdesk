@@ -1,0 +1,227 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Tickets";
+    Layout = "_DashboardLayout";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Tickets</h1>
+                    
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/Dashboard/">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Tickets</li>
+                    </ol>
+                </div>
+                <div class="col-12">
+                    <span title="Create Ticket" data-toggle="tooltip" data-placement="right"><button type="button" class="btn btn-success mt-3 float-right" data-toggle="modal" data-target="#createModal" onclick="openCreateTicket()"><i class="fas">Tambah Ticket</i></button></span>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#ticket" data-toggle="tab">Progress</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#history" data-toggle="tab">History</a></li>
+                            </ul>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="ticket">
+                                    <table id="tableTickets" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Description</th>
+                                                <th>Created Date</th>
+                                                <th>Status</th>
+                                                <th>Priority</th>
+                                                <th>Category</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <!-- /.tab-pane -->
+
+                                <div class="tab-pane" id="history">
+                                    <table id="tableHistoryTickets" class="table table-striped" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Description</th>
+                                                <th>Start Open Date</th>
+                                                <th>End Closed Date</th>
+                                                <th>Status</th>
+                                                <th>Priority</th>
+                                                <th>Category</th>
+                                                <th>Review</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <!-- /.tab-pane -->
+                                <!-- /.tab-content -->
+                            </div><!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<div id="createModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Ticket</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!--Form Create Ticket-->
+            <form class="needs-validation" novalidate id="formCreate" action="javascript:createTicket()">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <input type="number" class="form-control" id="inputCreateUserId" placeholder="UserId" value="@ViewBag.UserId" hidden required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="inputCreateCategory">Category</label>
+                            <select class="form-control" id="inputCreateCategoryId" placeholder="Category" required>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please enter right category option.
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="inputCreateDescription">Description</label>
+                            <textarea class="form-control" id="inputCreateDescription" placeholder="Description" required></textarea>
+                            <div class="invalid-feedback">
+                                Please enter right string format.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="viewReviewModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="needs-validation" novalidate id="formCreate" action="javascript:reviewTicket()">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <input type="number" class="form-control" id="inputReviewCaseId" value="" placeholder="CaseId" hidden required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="inputReview">Review</label>
+                            <select class="form-control" id="inputReview" placeholder="Review" required>
+                                <option value="1">&#11088;</option>
+                                <option value="2">&#11088; &#11088;</option>
+                                <option value="3">&#11088; &#11088; &#11088;</option>
+                                <option value="4">&#11088; &#11088; &#11088; &#11088;</option>
+                                <option value="5">&#11088; &#11088; &#11088; &#11088; &#11088;</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please enter right review option.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="viewConvertationModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Convertation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">x</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="direct-chat-messages" id="chatMessages">
+                </div>
+                <form class="needs-validation" novalidate id="formCreateConvertation" action="javascript:createConvertation()">
+
+                    <div class="form-row">
+                        <input type="number" class="form-control" id="inputConvertationUserId" value="@ViewBag.UserId" hidden required>
+                        <input type="number" class="form-control" id="inputConvertationCaseId" value="" hidden required>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="inputConvertationMessage">Message</label>
+                            <textarea class="form-control" id="inputConvertationMessage" placeholder="Message" required></textarea>
+                            <div class="invalid-feedback">
+                                Please enter right string format.
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Send</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script>
+        var viewBagUserId = '@ViewBag.UserId';
+        var viewBagRoleId = '@ViewBag.RoleId';
+        var viewBagLevel = '@ViewBag.Level';
+        var viewBagName = '@ViewBag.Name';
+        var viewBagStaff = '@ViewBag.StaffId';
+    </script>
+    <script src="~/js/tickets.js" asp-append-version="true"></script>
+}

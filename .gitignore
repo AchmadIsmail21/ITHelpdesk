@@ -1,0 +1,12 @@
+
+API/appsettings.json
+API/appsettings.Development.json
+API/bin/Debug/
+API/Migrations/
+API/obj/
+/.vs
+Client/appsettings.json
+Client/appsettings.Development.json
+Client/bin/
+Client/obj/
+Client/wwwroot/
