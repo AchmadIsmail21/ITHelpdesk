@@ -12,7 +12,6 @@ namespace API.ViewModel
         public int CaseId { get; set; }
         
         public int UserId { get; set; }
-        public int? StaffId { get; set; }
         
         public string Email { get; set; }
     }
