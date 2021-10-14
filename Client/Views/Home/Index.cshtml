@@ -19,7 +19,17 @@
 
     -->
     @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
-    @*<link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">*@
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="~/LoginRegister/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    @*<link rel="stylesheet" href="~/LoginRegister/css/style.css">*@
 
     <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/assets/css/font-awesome.min.css">
@@ -44,31 +54,33 @@
                 </div>
                 <div class="modal-body" id="bodyLoginModal">
                     <form id="formLogin" class="signin-form" asp-controller="Login" asp-action="Auth" method="post">-->
-                        @*<h2 class="form-title">Login</h2>*@
-                        <!--<div class="form-group">
-                            <label for="inputEmailLogin"></label>
-                            <input type="email" class="form-control" name="emailLogin" id="inputEmailLogin" placeholder="Your Email" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPasswordLogin"></label>
-                            <input type="password" class="form-control" name="passwordLogin" id="inputPasswordLogin" placeholder="Password" required />
-                            <span toggle="#inputPassword" class="zmdi zmdi-eye field-icon toggle-password"></span>
-                        </div>-->
-                        <!--<div class="form-group">
-                            <input type="submit" id="login" class="form-submit" value="Sign In"-->@*-->*@ <!--@*onclick="register()*@--> <!--<!--/>
-                        </div>-->
-                        <!--@*<p class="registerhere">
-                            Don't Have an account ? <a href="/Register/" class="loginhere-link">Register here</a>
-                        </p>*@
-                    <!--</form>
+    @*<h2 class="form-title">Login</h2>*@
+    <!--<div class="form-group">
+        <label for="inputEmailLogin"></label>
+        <input type="email" class="form-control" name="emailLogin" id="inputEmailLogin" placeholder="Your Email" required />
+    </div>
+    <div class="form-group">
+        <label for="inputPasswordLogin"></label>
+        <input type="password" class="form-control" name="passwordLogin" id="inputPasswordLogin" placeholder="Password" required />
+        <span toggle="#inputPassword" class="zmdi zmdi-eye field-icon toggle-password"></span>
+    </div>-->
+    <!--<div class="form-group">
+        <input type="submit" id="login" class="form-submit" value="Sign In"-->
+    @*-->*@ <!--@*onclick="register()*@-->
+    <!--<!--/>
+    </div>-->
+    <!--@*<p class="registerhere">
+                Don't Have an account ? <a href="/Register/" class="loginhere-link">Register here</a>
+            </p>*@
+        <!--</form>
+    </div>
+    <div class="modal-footer">-->
+    @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>*@
+    <!--<input type="submit" id="login" class="btn-primary" value="Sign In"--> @*onclick="register()*@ @*/>*@
+    @*</div>
                 </div>
-                <div class="modal-footer">-->
-                    @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>*@
-                    <!--<input type="submit" id="login" class="btn-primary" value="Sign In"--> @*onclick="register()*@ @*/>*@
-                @*</div>
             </div>
-        </div>
-    </div>-->*@
+        </div>-->*@
 
     <!--Modal Register-->
     <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
@@ -81,71 +93,77 @@
                     </button>
                 </div>
                 <div class="modal-body" id="bodyRegisterModal">
-                    <form id="formRegister" class="signup-form">
-                        @*<h2 class="form-title ">Create account</h2>*@
-                        <div class="form-group">
-                            <label for="inputName"></label>
-                            <input type="text" class="form-control" name="name" id="inputName" placeholder="Your Name" required />
+                    
+                        <form id="formRegister" class="signup-form">
+                            @*<h2 class="form-title ">Create account</h2>*@
 
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail"></label>
-                            <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Your Email" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPassword"></label>
-                            <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Password" />
-                            <span toggle="#inputPassword" class="zmdi zmdi-eye field-icon toggle-password"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputBirthDate"></label>
-                            <input type="datetime" class="form-control" name="birthdate" id="inputBirthDate" placeholder="Your BirthDate" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="inputGender"></label>
-                            @*<input type="text" class="form-input" name="gender" id="inputGender" placeholder="Your Gender" required />*@
-                            <select class="form-control" id="inputGender" name="gender" required>
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
-                            </select>
-                        </div>
-                         <div class="form-group">
-                                
-                                <label for="inputPhone"></label>
+                            <div class="form-group">
+                                <label for="inputName">Full Name</label>
+                                @*<div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-facebook"></i></span>
+                                </div>*@
+                                <input type="text" class="form-control" name="name" id="inputName" placeholder="Your Name" required />
+
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">Email</label>
+                                <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Your Email" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword">Password</label>
+                                <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Password" />
+                                @*<span toggle="#inputPassword" class="zmdi zmdi-eye field-icon toggle-password"></span>*@
+                            </div>
+                            <div class="form-group">
+                                <label for="inputBirthDate">Birth Date</label>
+
+                                <input type="date" value="2010-12-05" class="form-control" name="birthdate" id="inputBirthDate" placeholder="Your BirthDate" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="inputGender">Gender</label>
+                                @*<input type="text" class="form-input" name="gender" id="inputGender" placeholder="Your Gender" required />*@
+                                <select class="form-control" id="inputGender" name="gender" required>
+                                    <option value="0">Male</option>
+                                    <option value="1">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+
+                                <label for="inputPhone">Phone Number</label>
                                 <input type="text" class="form-control" name="phone" id="inputPhone" placeholder="Your Phone" required />
-                         </div>
-                        <div class="form-group">
-                            <label for="inputAddress"></label>
-                            <textarea class="form-control" name="address" id="inputAddress" placeholder="Your Address" required >
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress">Address</label>
+                                <textarea class="form-control" name="address" id="inputAddress" placeholder="Your Address" required>
                             </textarea>
-                           @* <input type="" class="form-control" name="address" id="inputAddress" placeholder="Your Address" required />*@
-                        </div>
-                        <div class="form-group">
-                            <label for="inputDepartment"></label>
-                            <input type="text" class="form-control" name="department" id="inputDepartment" placeholder="Your Department" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="inputCompany"></label>
-                            <input type="text" class="form-control" name="company" id="inputCompany" placeholder="Your Company" required />
-                        </div>
-                        @*<div class="form-group">
-          <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Repeat your password" />
-        </div>*@
-                        @*<div class="form-group">
-            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
-        </div>*@
-                        <!--<div class="form-group">
-        <input type="submit" id="register" class="form-submit" value="Sign up"-->
-                        @*onclick="register()*@
-                        <!--/>
-    </div>-->
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="registerBtn" class="btn btn-primary">Sign Up</button>
-                </div>
+                                @* <input type="" class="form-control" name="address" id="inputAddress" placeholder="Your Address" required />*@
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDepartment">Department</label>
+                                <input type="text" class="form-control" name="department" id="inputDepartment" placeholder="Your Department" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="inputCompany">Company</label>
+                                <input type="text" class="form-control" name="company" id="inputCompany" placeholder="Your Company" required />
+                            </div>
+                            @*<div class="form-group">
+                  <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Repeat your password" />
+                </div>*@
+                            @*<div class="form-group">
+                    <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+                    <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+                </div>*@
+                            <!--<div class="form-group">
+            <input type="submit" id="register" class="form-submit" value="Sign up"-->
+                            @*onclick="register()*@
+                            <!--/>
+            </div>-->
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" id="registerBtn" class="btn btn-primary">Sign Up</button>
+                    </div>
             </div>
         </div>
     </div>
@@ -198,9 +216,9 @@
                     </li>
                     <li><a href="/Login/" class="smoothScroll">LOGIN</a></li>
                     @*<li><a href="" class="smoothScroll" data-toggle="modal" data-target="#loginModal">
-                LOGIN
-            </a>
-        </li>*@
+                                LOGIN
+                            </a>
+                        </li>*@
 
 
                 </ul>
@@ -591,6 +609,9 @@
     <script src="~/assets/js/wow.min.js"></script>
     <script src="~/assets/js/custom.js"></script>
 
+    <!-- JS -->
+    @*<script src="~/LoginRegister/vendor/jquery/jquery.min.js"></script>*@
+    @*<script src="~/LoginRegister/js/main.js"></script>*@
     <script src="~/js/register/register.js" asp-append-version="true"></script>
 
 </body>
