@@ -50,8 +50,8 @@ namespace Client.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
        /* [HttpGet("Logout/")]
-        [Authorize]
-        public IActionResult Logout()
+        [Authorize]*/
+       /* public IActionResult Logout()
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Login");
