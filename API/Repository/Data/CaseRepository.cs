@@ -111,7 +111,7 @@ namespace API.Repository.Data
         //history from client----------------------------------------------------------------------------------------
         public IEnumerable<CaseVM> ViewHistoryTicketsByUserId(int userId)
         {
-            
+            var history = myContext.Histories.OrderByDescending(e => e.DateTime).Where(u => u.UserId == userId).Select(c => c.CaseId);
             var all = (
                 from c in myContext.Cases
                 join u in myContext.Users on c.UserId equals u.Id
@@ -132,7 +132,7 @@ namespace API.Repository.Data
                     CategoryName = ct.Name
                     
                 }).ToList();
-            return all.Where(x => x.UserId == userId && (x.Review != null || x.Review > 0));
+            return all.Where(x => history.Contains(x.Id) && x.EndDateTime != null && x.UserId == userId && (x.Review != null || x.Review > 0) );
         }
 
         //by staff------------------------------------------------------------------------------------------------------------
